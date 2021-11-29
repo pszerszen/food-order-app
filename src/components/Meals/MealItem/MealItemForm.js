@@ -9,11 +9,10 @@ const MealItemForm = props => {
 
   const submitHandler = event => {
     event.preventDefault();
-    const amount = ref.current.value;
-    if (amount && +amount > 0) {
-      Array(amount).forEach(() => cartContext.addToCart({...props.meal, amount: +amount}));
-      ref.current.value = 1;
-    }
+    const amount = +ref.current.value;
+
+    cartContext.addToCart({...props.meal, amount: amount});
+    ref.current.value = "1";
   };
 
   return (
@@ -24,6 +23,7 @@ const MealItemForm = props => {
           min: 1,
           max: 5,
           step: 1,
+          required: true,
           defaultValue: 1,
           ref: ref
         }}>

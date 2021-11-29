@@ -14,16 +14,16 @@ const Cart = props => {
                                                      name={item.name}
                                                      price={item.price}
                                                      amount={item.amount}
-                                                     onAdd={() => cartContext.addToCart(item)}
-                                                     onRemove={() => cartContext.removeFromCart(item.id)}/>)}
+                                                     onAdd={cartContext.addToCart.bind(null, item)}
+                                                     onRemove={cartContext.removeFromCart.bind(null, item.id)}/>)}
       </ul>
     </div>
     <div className={styles.total}>
       <span>Total Amount</span>
-      <span>${cartContext.totalPrice}</span>
+      <span>${cartContext.totalPrice.toFixed(2)}</span>
     </div>
     <div className={styles.actions}>
-      <button className={styles['button--alt']} onClick={() => cartContext.hideCart()}>Close</button>
+      <button className={styles['button--alt']} onClick={cartContext.hideCart}>Close</button>
       <button className={styles.button} onClick={cartContext.checkOut}>Order</button>
     </div>
   </Modal>;
