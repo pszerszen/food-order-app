@@ -7,6 +7,8 @@ import CartItem     from "./CartItem";
 const Cart = props => {
   const cartContext = useContext(CartContext);
 
+  const incrementHandler = item => cartContext.addToCart({...item, amount: 1});
+
   return <Modal onClose={cartContext.hideCart}>
     <div className={styles["cart-items"]}>
       <ul>
@@ -14,7 +16,7 @@ const Cart = props => {
                                                      name={item.name}
                                                      price={item.price}
                                                      amount={item.amount}
-                                                     onAdd={cartContext.addToCart.bind(null, item)}
+                                                     onAdd={incrementHandler.bind(null, item)}
                                                      onRemove={cartContext.removeFromCart.bind(null, item.id)}/>)}
       </ul>
     </div>
