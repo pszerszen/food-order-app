@@ -1,15 +1,17 @@
-import {useRef} from "react";
-import Input    from "../../UI/Input";
-import styles   from "./MealItemForm.module.css";
+import {useContext, useRef} from "react";
+import CartContext          from "../../../context/cart-context";
+import Input                from "../../UI/Input";
+import styles               from "./MealItemForm.module.css";
 
 const MealItemForm = props => {
   const ref = useRef(1);
+  const cartContext = useContext(CartContext);
 
   const submitHandler = event => {
     event.preventDefault();
     const amount = ref.current.value;
     if (amount && +amount > 0) {
-      //add to cart
+      Array(amount).forEach(() => cartContext.addToCart({...props.meal, amount: +amount}));
       ref.current.value = 1;
     }
   };
@@ -17,7 +19,7 @@ const MealItemForm = props => {
   return (
       <form className={styles.form} onSubmit={submitHandler}>
         <Input input={{
-          id: props.id,
+          id: props.meal.id,
           type: "number",
           min: 1,
           max: 5,

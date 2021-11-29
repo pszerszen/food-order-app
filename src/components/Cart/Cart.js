@@ -1,26 +1,30 @@
-import {v4 as uuid} from "uuid";
+import {useContext} from "react";
+import CartContext  from "../../context/cart-context";
 import Modal        from "../UI/Modal";
 import styles       from "./Cart.module.css";
+import CartItem     from "./CartItem";
 
 const Cart = props => {
-  const cartItems = [{
-    id: uuid(),
-    name: 'Sushi',
-    description: 'Finest fish and veggies',
-    price: 22.99,
-  }]
-      .map(it => <li key={it.id}>{it.name}</li>);
-  return <Modal>
+  const cartContext = useContext(CartContext);
+
+  return <Modal onClose={cartContext.hideCart}>
     <div className={styles["cart-items"]}>
-      <ul>{cartItems}</ul>
+      <ul>
+        {cartContext.cartItems.map(item => <CartItem key={item.id}
+                                                     name={item.name}
+                                                     price={item.price}
+                                                     amount={item.amount}
+                                                     onAdd={() => cartContext.addToCart(item)}
+                                                     onRemove={() => cartContext.removeFromCart(item.id)}/>)}
+      </ul>
     </div>
     <div className={styles.total}>
       <span>Total Amount</span>
-      <span>$35.99</span>
+      <span>${cartContext.totalPrice}</span>
     </div>
     <div className={styles.actions}>
-      <button className={styles['button--alt']}>Close</button>
-      <button className={styles.button}>Order</button>
+      <button className={styles['button--alt']} onClick={() => cartContext.hideCart()}>Close</button>
+      <button className={styles.button} onClick={cartContext.checkOut}>Order</button>
     </div>
   </Modal>;
 };
