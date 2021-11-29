@@ -17,16 +17,14 @@ const cartReducer = (state, action) => {
     case CartAction.ADD:
       const existingItemIndex = state.items.findIndex(it => it.id === action.item.id);
       const existingItem = state.items[existingItemIndex];
-      let updatedItem;
       let updatedItems;
 
       if (existingItem) {
-        updatedItem = {...existingItem, amount: existingItem.amount + action.item.amount};
+        const updatedItem = {...existingItem, amount: existingItem.amount + action.item.amount};
         updatedItems = [...state.items];
         updatedItems[existingItemIndex] = updatedItem;
       } else {
-        updatedItem = {...action.item};
-        updatedItems = state.items.concat(updatedItem);
+        updatedItems = state.items.concat(action.item);
       }
 
       return {items: updatedItems, totalAmount: state.totalAmount + action.item.price * action.item.amount};
